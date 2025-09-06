@@ -22,20 +22,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
           // Create participants list HTML
           let participantsHTML = '';
-            function escapeHTML(str) {
-              return str.replace(/[&<>"'`=\/]/g, function (s) {
-                return ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#39;',
-                '`': '&#96;',
-                '=': '&#61;',
-                '/': '&#47;'
-                })[s];
-              });
-            }
+        function escapeHTML(str) {
+          return str.replace(/[&<>"'`=\/]/g, function (s) {
+            return ({
+              '&': '&amp;',
+              '<': '&lt;',
+              '>': '&gt;',
+              '"': '&quot;',
+              "'": '&#39;',
+              '`': '&#96;',
+              '=': '&#61;',
+              '/': '&#47;'
+            })[s];
+          });
+        }
 
             if (details.participants.length > 0) {
             participantsHTML = `
