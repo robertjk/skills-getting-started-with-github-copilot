@@ -4,6 +4,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const signupForm = document.getElementById("signup-form");
   const messageDiv = document.getElementById("message");
 
+  function escapeHTML(str) {
+    return str.replace(/[&<>"'`=\/]/g, function (s) {
+      return {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+        '`': '&#96;',
+        '=': '&#61;',
+        '/': '&#47;'
+      }[s];
+    });
+  }
+
   // Function to fetch activities from API
   async function fetchActivities() {
     try {
@@ -20,12 +35,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const spotsLeft = details.max_participants - details.participants.length;
 
-        activityCard.innerHTML = `
-          <h4>${name}</h4>
-          <p>${details.description}</p>
-          <p><strong>Schedule:</strong> ${details.schedule}</p>
-          <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
-        `;
+          // Create participants list HTML
+          let participantsHTML = '';
+
+          if (details.participants.length > 0) {
+          participantsHTML = `
+            <div class="participants-section">
+            <strong>Participants:</strong>
+            <ul class="participants-list">
+              ${details.participants.map(email => `<li>${escapeHTML(email)}</li>`).join('')}
+            </ul>
+            </div>
+          `;
+          } else {
+          participantsHTML = `
+            <div class="participants-section">
+            <strong>Participants:</strong>
+            <span class="no-participants">No one has signed up yet.</span>
+            </div>
+          `;
+          }
+
+          activityCard.innerHTML = `
+            <h4>${name}</h4>
+            <p>${details.description}</p>
+            <p><strong>Schedule:</strong> ${details.schedule}</p>
+            <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
+            ${participantsHTML}
+          `;
 
         activitiesList.appendChild(activityCard);
 
